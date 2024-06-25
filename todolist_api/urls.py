@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ..todo.models import index, redirect
+#from ..todo.views import index, redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', redirect('index/')),
-    path('index/', )
+    #path('', redirect('index/')),
+    #path('index/', index)
 ]
