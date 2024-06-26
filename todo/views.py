@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 from .models import Todo
-from rest_framework import permissions, viewsets
+from rest_framework import viewsets
 from .serializers import TodoSerializer
+from django.core import serializers
 
 # Create your views here.
 
@@ -13,3 +14,10 @@ class TodoViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     permission_classes = [] # permissions.IsAuthenticated
 
+    def create(self, request):
+        todo = Todo.objects.create(
+            title=request.data.get('title', ''),
+            description=request.data.get('description', ''), 
+            user=request.user)
+        serialized_obj = serializers.serialize('json', [todo, ])
+        return HttpResponse(serialized_obj, content_type='application/json')
